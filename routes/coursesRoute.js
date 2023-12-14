@@ -3,8 +3,10 @@ import * as coursesController from "../controller/coursesController.js";
 
 const coursesRouter = express.Router();
 
-coursesRouter
-.get("/all", coursesController.getAllCourses)
-.get("/:id", coursesController.getOneCourse);
+coursesRouter.route("/").get(coursesController.getAllCourses);
+
+coursesRouter.route("/:id").get(coursesController.getOneCourse);
+
+coursesRouter.route("/create").post(coursesController.createNewCourse);
 
 export default coursesRouter;
