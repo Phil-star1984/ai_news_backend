@@ -7,6 +7,7 @@ coursesRouter.route("/").get(coursesController.getAllCourses);
 
 coursesRouter.route("/:id").get(coursesController.getOneCourse);
 
-coursesRouter.route("/create").post(coursesController.createNewCourse);
+/* Route for uploading content of courses */
+coursesRouter.route("/upload").post(coursesController.uploadNewCourse);
 
 export default coursesRouter;

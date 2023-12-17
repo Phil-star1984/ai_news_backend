@@ -11,7 +11,7 @@ app.use(cors());
 
 /* Separation of Concerns. I want a route for "/courses" and separate routes/controller/utils files. */
 
-app.use("/courses", coursesRouter);
+app.use("/api/courses", coursesRouter);
 
 /* Start Server */
 app.listen(PORT, () => {
