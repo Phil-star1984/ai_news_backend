@@ -1,5 +1,6 @@
-/* import { courses } from "../data/coursesData.js"; */
 import Course from "../models/coursesSchemaNew.js";
+import cloudinary from "../utils/cloudinary.js";
+/* import { courses } from "../data/coursesData.js"; */
 
 export const getAllCourses = async (req, res, next) => {
   try {

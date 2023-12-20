@@ -1,7 +1,8 @@
 import express from "express";
-import bodyParser from "body-parser";
+/* import bodyParser from "body-parser"; */
 import cors from "cors";
 import coursesRouter from "./routes/coursesRoute.js";
+import "./db/mongoDB.js";
 
 const PORT = process.env.PORT || 8000;
 const app = express();
