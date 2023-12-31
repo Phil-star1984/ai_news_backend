@@ -3,14 +3,30 @@ import User from "../models/userSchema.js";
 
 const userData = { message: "Hello from user Route!", user: "Phil Splash" };
 
-export const getUser = async (req, res, next) => {
+export const getAllUsers = async (req, res, next) => {
   try {
     const result = await User.find();
     if (!result) {
       throw new Error("There is no user in database");
     }
 
-    res.status(201).send(result);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+export const getOneUser = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const result = await User.findById(id);
+    if (!result) {
+      throw new Error(`There is no user with id: ${id}`);
+    }
+
+    res.status(200).send(result);
   } catch (error) {
     console.log(error);
     next(error);

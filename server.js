@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import coursesRouter from "./routes/coursesRoute.js";
 import userRouter from "./routes/userRoute.js";
+import authRouter from "./routes/authRoute.js";
 import "./db/mongoDB.js";
 
 const PORT = process.env.PORT || 8000;
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 /* Separation of Concerns. I want a route for "/courses" and separate routes/controller/utils files. */
 
 app.use("/api/courses", coursesRouter);
+app.use("/auth", authRouter);
 app.use("/user", userRouter);
 
 /* Start Server */
