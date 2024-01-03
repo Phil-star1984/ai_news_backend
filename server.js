@@ -5,17 +5,22 @@ import coursesRouter from "./routes/coursesRoute.js";
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
 import "./db/mongoDB.js";
+import cookieParser from "cookie-parser";
+
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
 app.use(cors());
+
 app.use(
   express.json({
     limit: "2mb",
   })
 );
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+
 
 /* Separation of Concerns. I want a route for "/courses" and separate routes/controller/utils files. */
 
