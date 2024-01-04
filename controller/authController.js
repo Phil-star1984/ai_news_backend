@@ -27,6 +27,8 @@ export const signUp = asyncHandler(async (req, res, next) => {
     password: hash,
   });
 
+  const token = jwt.sign({ uid: newUser._id }, process.env.SECRETJWTKEY);
+
   // send back status & success message
   res.status(201).send({ status: "success" });
 });
@@ -45,10 +47,11 @@ export const signIn = asyncHandler(async (req, res, next) => {
     throw new CustomError("Authentication failed", 401);
   }
 
+  //sign user a JWT token and send via cookies
   const token = jwt.sign(
-    { userId: existingUser._id },
-    process.env.SECRETJWTKEY,
-    { expiresIn: "1h" }
+    { uid: existingUser._id },
+    process.env.SECRETJWTKEY
+    /* { expiresIn: "1h" } */
   );
   if (!token) {
     throw new CustomError("Token is invalid", 401);
@@ -56,11 +59,25 @@ export const signIn = asyncHandler(async (req, res, next) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "None",
-    secure: true,
+    /* sameSite: "None",
+    secure: true, */
     maxAge: 1800000,
   });
-  res.status(200).send("Cookie sent");
+  res.status(200).send({ status: "success" });
+});
 
-  //sign user a JWT token and send via cookies
+export const getUser = asyncHandler(async (req, res, next) => {
+  /* console.log(req.uid); */
+
+  const user = await User.findById(req.uid, { password: 0 });
+  if (!user) {
+    throw new CustomError(`User with id:${uid} does not exist`);
+  }
+
+  res.status(200).json(user);
+});
+
+export const logOut = asyncHandler(async (req, res, next) => {
+  res.clearCookie("token");
+  res.status(200).send({ status: "success" });
 });
