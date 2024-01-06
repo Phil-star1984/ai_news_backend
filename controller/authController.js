@@ -29,6 +29,14 @@ export const signUp = asyncHandler(async (req, res, next) => {
 
   const token = jwt.sign({ uid: newUser._id }, process.env.SECRETJWTKEY);
 
+  // send jwt in cookies
+  res.cookie("token", token, {
+    httpOnly: true,
+    /* sameSite: "None",
+    secure: true, */
+    maxAge: 1800000,
+  });
+
   // send back status & success message
   res.status(201).send({ status: "success" });
 });
