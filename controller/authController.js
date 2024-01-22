@@ -67,11 +67,11 @@ export const signIn = asyncHandler(async (req, res, next) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    /* sameSite: "None",
-    secure: true, */
+    sameSite: "None",
+    secure: true,
     maxAge: 1800000,
   });
-  res.status(200).send({ status: "success" });
+  res.status(200).send({ message: "success" });
 });
 
 export const getUser = asyncHandler(async (req, res, next) => {
