@@ -11,6 +11,7 @@ const coursesSchema = new mongoose.Schema(
     section_one: { type: String, required: false },
     section_two: { type: String, required: false },
     section_three: { type: String, required: false },
+    section_four: { type: String, required: false },
   },
   {
     timestamps: true,

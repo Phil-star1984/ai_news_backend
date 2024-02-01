@@ -66,8 +66,8 @@ export const signIn = asyncHandler(async (req, res, next) => {
   }
 
   res.cookie("token", token, {
-    httpOnly: true,
-    sameSite: "None",
+    httpOnly: false,
+    sameSite: "lax",
     secure: true,
     maxAge: 1800000,
   });

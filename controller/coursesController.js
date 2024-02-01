@@ -31,61 +31,52 @@ export const getOneCourse = async (req, res, next) => {
 };
 
 export const uploadNewCourse = async (req, res, next) => {
-  const {
-    title,
-    description,
-    duration,
-    author,
-    imgUrl,
-    image,
-    section_one,
-    section_two,
-    section_three,
-  } = req.body;
-
   try {
+    const {
+      title,
+      description,
+      duration,
+      author,
+      imgUrl,
+      image,
+      section_one,
+      section_two,
+      section_three,
+      section_four,
+    } = req.body;
+
+    /* if (!title || !description || !section_one) {
+      return res.status(400).json({ message: "Missing required fields" });
+    } */
+
+    let uploadImage = null;
+
     if (image) {
-      const uploadRes = await cloudinary.uploader.upload(image, {
+      uploadImage = await cloudinary.uploader.upload(image, {
         upload_preset: "ai_courses",
       });
-
-      if (uploadRes) {
-        const course = new Course({
-          title,
-          description,
-          duration,
-          author,
-          imgUrl,
-          image: uploadRes,
-          section_one,
-          section_two,
-          section_three,
-        });
-
-        const savedCourse = await course.save();
-
-        res.status(200).send(savedCourse);
-      }
-    } else {
-      const course = new Course({
-        title,
-        description,
-        duration,
-        author,
-        imgUrl,
-        section_one,
-        section_two,
-        section_three,
-      });
-
-      const savedCourse = await course.save();
-
-      res.status(200).send(savedCourse);
-
-      /* res.status(400).send({ message: "no image to upload" }); */
     }
+
+    const courseData = {
+      title,
+      description,
+      duration,
+      author,
+      imgUrl,
+      image: uploadImage,
+      section_one,
+      section_two,
+      section_three,
+      section_four,
+    };
+
+    const course = new Course(courseData);
+
+    const savedCourse = await course.save();
+
+    res.status(201).json(savedCourse);
   } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
