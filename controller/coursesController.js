@@ -19,13 +19,17 @@ export const getOneCourse = async (req, res, next) => {
 
   try {
     const result = await Course.find({ _id: id });
+
     if (!result) {
-      throw { statusCode: 404, message: "course not found" };
+      // send 404 if course not found
+      return res.status(404).send({ message: "Course not found" });
     }
+
     /* console.log(result); */
     res.send(result);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    //pass to middleware
     next(error);
   }
 };
@@ -43,6 +47,12 @@ export const uploadNewCourse = async (req, res, next) => {
       section_two,
       section_three,
       section_four,
+      example_one,
+      example_two,
+      example_three,
+      link_one,
+      link_two,
+      link_three,
     } = req.body;
 
     /* if (!title || !description || !section_one) {
@@ -63,11 +73,17 @@ export const uploadNewCourse = async (req, res, next) => {
       duration,
       author,
       imgUrl,
-      image: uploadImage,
+      image: uploadImage ? uploadImage.url : "",
       section_one,
       section_two,
       section_three,
       section_four,
+      example_one,
+      example_two,
+      example_three,
+      link_one,
+      link_two,
+      link_three,
     };
 
     const course = new Course(courseData);
@@ -77,6 +93,6 @@ export const uploadNewCourse = async (req, res, next) => {
     res.status(201).json(savedCourse);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    next({ status: 500, message: "Internal server error", error: error });
   }
 };
