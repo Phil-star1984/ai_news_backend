@@ -61,7 +61,7 @@ export const uploadNewCourse = asyncHandler(async (req, res) => {
     duration,
     author,
     imgUrl,
-    image: uploadImage ? uploadImage.url : "",
+    image: uploadImage ? uploadImage : "",
     section_one,
     section_two,
     section_three,
