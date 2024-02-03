@@ -16,6 +16,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://phil-star1984.github.io/ai_news/",
+      "https://ai-bro.vercel.app",
     ],
     credentials: true,
   })
