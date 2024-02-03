@@ -1,4 +1,4 @@
-import CustomError from "../utils/customError.js";
+import CustomError from "../utils/CustomError.js";
 import User from "../models/userSchema.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import bcrypt from "bcrypt";

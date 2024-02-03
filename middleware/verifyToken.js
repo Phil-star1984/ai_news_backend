@@ -1,5 +1,5 @@
 import asyncHandler from "../utils/asyncHandler.js";
-import CustomError from "../utils/customError.js";
+import CustomError from "../utils/CustomError.js";
 import jwt from "jsonwebtoken";
 
 const verifyToken = asyncHandler(async (req, res, next) => {
