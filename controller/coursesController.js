@@ -82,11 +82,28 @@ export const uploadNewCourse = asyncHandler(async (req, res) => {
 export const deleteOneCourse = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
+  // get public_id of the course key visual
+  const course = await Course.findOne({ _id: id }, { "image.public_id": 1 });
+  if (!course) {
+    throw new CustomError("No public Id of course key visual found", 404);
+  }
+  const publicId = course.image.public_id;
+
+  // delete key visual on cloudinary
+  let deleteKeyVisual;
+  try {
+    deleteKeyVisual = await cloudinary.uploader.destroy(publicId);
+    console.log("Cloudinary Response: ", deleteKeyVisual.result);
+  } catch (cloudinaryError) {
+    console.error("Cloudinary Error:", cloudinaryError);
+  }
+
+  // delete course data
   const result = await Course.deleteOne({ _id: id });
   if (result.deletedCount === 0) {
-    // if no course was delted, there was no course found
+    // if no course was deleted, there was no course found
     throw new CustomError(`Course with ID ${id} not found`, 404);
   }
 
-  res.status(204).send("Successfully deleted course");
+  res.status(204).send();
 });
