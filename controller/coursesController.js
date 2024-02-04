@@ -78,3 +78,15 @@ export const uploadNewCourse = asyncHandler(async (req, res) => {
   const savedCourse = await course.save();
   res.status(201).json(savedCourse);
 });
+
+export const deleteOneCourse = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await Course.deleteOne({ _id: id });
+  if (result.deletedCount === 0) {
+    // if no course was delted, there was no course found
+    throw new CustomError(`Course with ID ${id} not found`, 404);
+  }
+
+  res.status(204).send("Successfully deleted course");
+});
